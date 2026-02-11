@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game | Yuvin Padayachee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #000000;
+      color: #e0e0e0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4b0082, #1a1a40);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #c0c0ff;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: #dcdcff;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #1a1a40;
+      color: #8a2be2;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+
+    .back-link:hover {
+      background: #8a2be2;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    .play-again-btn {
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, #4b0082, #8a2be2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+    }
+
+    .play-again-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
+      background: linear-gradient(135deg, #8a2be2, #4b0082);
+    }
+
+    .play-again-btn:active {
+      transform: translateY(0);
+    }
+
+    .memoryGame {
+      width: 640px;
+      max-width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      perspective: 1000px;
+      gap: 10px;
+    }
+
+    .memoryCards {
+      width: calc(33.333% - 10px);
+      height: 160px;
+      position: relative;
+      transform: scale(1);
+      transform-style: preserve-3d;
+      transition: transform .5s;
+      cursor: pointer;
+    }
+
+    .memoryCards:active {
+      transform: scale(0.97);
+      transition: transform .1s;
+    }
+
+    .memoryCards.flip {
+      transform: rotateY(180deg);
+    }
+
+    .front-face,
+    .back-face {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      position: absolute;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1a1a40, #4b0082);
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      border: 2px solid rgba(138, 43, 226, 0.3);
+    }
+
+    .back-face {
+      background: linear-gradient(135deg, #2a2a50, #1a1a40);
+    }
+
+    .front-face {
+      transform: rotateY(180deg);
+    }
+
+    .front-face img,
+    .back-face img {
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #1a1a40;
+      color: #c0c0ff;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 600px) {
+      .memoryGame {
+        width: 100%;
+      }
+      
+      .memoryCards {
+        height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Memory Game</h1>
+    <p>Match the JavaScript framework logos!</p>
+    <a href="index.html" class="back-link">← Back to Portfolio</a>
+  </header>
+
+  <div class="container">
+    <button class="play-again-btn" onclick="resetGame()">Play Again</button>
+    
+    <section class="memoryGame">
+      <div class="memoryCards" data-value="js">
+        <div class="back-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Black_question_mark.png" alt="Hidden" />
+        </div>
+        <div class="front-face">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwCV6pkoBzfVUeYqCGwtx7_LHWPu2FXjEGOA&s" alt="JavaScript" />
+        </div>
+      </div>
+
+      <div class="memoryCards" data-value="js">
+        <div class="back-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Black_question_mark.png" alt="Hidden" />
+        </div>
+        <div class="front-face">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwCV6pkoBzfVUeYqCGwtx7_LHWPu2FXjEGOA&s" alt="JavaScript" />
+        </div>
+      </div>
+
+      <div class="memoryCards" data-value="vue">
+        <div class="back-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Black_question_mark.png" alt="Hidden" />
+        </div>
+        <div class="front-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" alt="Vue" />
+        </div>
+      </div>
+
+      <div class="memoryCards" data-value="vue">
+        <div class="back-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Black_question_mark.png" alt="Hidden" />
+        </div>
+        <div class="front-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" alt="Vue" />
+        </div>
+      </div>
+
+      <div class="memoryCards" data-value="react">
+        <div class="back-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Black_question_mark.png" alt="Hidden" />
+        </div>
+        <div class="front-face">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7XCnlkMKmCQJFdwI28q3_ahpEMcpO0g60fA&s" alt="React" />
+        </div>
+      </div>
+
+      <div class="memoryCards" data-value="react">
+        <div class="back-face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Black_question_mark.png" alt="Hidden" />
+        </div>
+        <div class="front-face">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7XCnlkMKmCQJFdwI28q3_ahpEMcpO0g60fA&s" alt="React" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Yuvin Padayachee | Memory Game Project</p>
+  </footer>
+
+  <script>
+    const cards = document.querySelectorAll(".memoryCards");
+
+    let isFlipped = false;
+    let completedBoard = false;
+    let firstCard;
+    let secondCard;
+
+    // Start the game when the page loads
+    window.onload = function() {
+      shuffle();
+    };
+
+    // Flip card function
+    function flipCard() {
+      // If the user completes the game then it will not allow them to flip the cards
+      if (completedBoard) {
+        return;
+      }
+      
+      // If the 2nd card matches the first card
+      if (this == firstCard) {
+        return;
+      }
+      
+      // Add the flip class to the card
+      this.classList.add('flip');
+      
+      // If no card is flipped then we make the firstCard var equal to that data-value
+      if (!isFlipped) {
+        isFlipped = true;
+        firstCard = this;
+        return;
+      }
+      
+      secondCard = this;
+      isMatch(); // Check for the matching card
+    }
+
+    function isMatch() {
+      let isMatched;
+      
+      // Check by checking the data-value
+      isMatched = firstCard.dataset.value === secondCard.dataset.value;
+
+      if (isMatched) {
+        disableCards(); // Disable the cards so user can't flip the matched cards
+      } else {
+        unflipCards(); // If not the same then unflip it
+      }
+    }
+
+    function disableCards() {
+      // Remove the click event when disableCards is called
+      firstCard.removeEventListener("click", flipCard);
+      secondCard.removeEventListener("click", flipCard);
+      
+      resetCards();
+    }
+
+    function unflipCards() {
+      // Stops the game from being played while the wrong cards are being flipped
+      completedBoard = true;
+      
+      // After 500ms/0.5s then flip the cards back
+      setTimeout(() => {
+        firstCard.classList.remove('flip');
+        secondCard.classList.remove('flip');
+        
+        resetCards();
+      }, 500);
+    }
+
+    function resetCards() {
+      isFlipped = false;
+      completedBoard = false;  
+      
+      firstCard = null;
+      secondCard = null;
+    }
+
+    // Randomize the placement of the cards
+    function shuffle() {
+      cards.forEach(card => {
+        let randomPos = Math.floor(Math.random() * 6);
+        card.style.order = randomPos;
+      });
+    }
+
+    // Add the onclick event when the program starts
+    cards.forEach(card => card.addEventListener('click', flipCard));
+
+    // Reset the entire game
+    function resetGame() {
+      // Remove flip class from all cards
+      cards.forEach(card => {
+        card.classList.remove('flip');
+        // Re-add event listeners
+        card.removeEventListener('click', flipCard);
+        card.addEventListener('click', flipCard);
+      });
+      
+      // Reset game state
+      isFlipped = false;
+      completedBoard = false;
+      firstCard = null;
+      secondCard = null;
+      
+      // Shuffle cards again
+      shuffle();
+    }
+  </script>
+</body>
+</html>
